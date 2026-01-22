@@ -1,0 +1,13 @@
+package com.tokengate.tokengate;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class TokengateApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
