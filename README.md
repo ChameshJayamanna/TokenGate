@@ -19,4 +19,4 @@ Build files (target/, .jar) are excluded
 
 More features (reset password, refresh token) will be added later
 
-new* reset password feature added successfully 
+new** reset password feature added successfully (18/03/26)
