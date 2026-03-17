@@ -18,3 +18,5 @@ Sensitive values (email password, JWT secret) are not committed
 Build files (target/, .jar) are excluded
 
 More features (reset password, refresh token) will be added later
+
+new* reset password feature added successfully 
