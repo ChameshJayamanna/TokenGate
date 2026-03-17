@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
 import API from "../api";
 
-function Login() {
-  const navigate = useNavigate();
+function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await API.post("/login", { email, password });
-      localStorage.setItem("token", res.data);
-      navigate("/home");
+      await API.post("/forgot-password", { email });
+      alert("Reset link sent! Please check your email.");
     } catch (err) {
-      alert(err.response?.data || "Invalid credentials or email not verified!");
+      alert(err.response?.data || "Error occurred!");
     }
   };
 
@@ -38,39 +35,25 @@ function Login() {
           textAlign: "center",
         }}
       >
-        <h2>Login</h2>
+        <h2>Forgot Password</h2>
 
         <form onSubmit={handleSubmit}>
           <input
             type="email"
-            placeholder="Email"
-            value={email}
+            placeholder="Enter your email"
             required
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             style={{ width: "100%", padding: 8, marginBottom: 10 }}
           />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            required
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: 8, marginBottom: 10 }}
-          />
-
           <button type="submit" style={{ padding: "8px 16px" }}>
-            Login
+            Send Reset Link
           </button>
         </form>
-
-        {/* Forgot Password Link */}
-        <p style={{ marginTop: "15px" }}>
-          <Link to="/forgot-password">Forgot Password?</Link>
-        </p>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default ForgotPassword;

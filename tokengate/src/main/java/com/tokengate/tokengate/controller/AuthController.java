@@ -1,6 +1,8 @@
 package com.tokengate.tokengate.controller;
 
+import com.tokengate.tokengate.dto.ForgotPasswordRequestDTO;
 import com.tokengate.tokengate.dto.LoginDTO;
+import com.tokengate.tokengate.dto.ResetPasswordDTO;
 import com.tokengate.tokengate.dto.UserDTO;
 import com.tokengate.tokengate.service.AuthService;
 import jakarta.validation.Valid;
@@ -31,5 +33,19 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody @Valid LoginDTO loginDTO) {
         String jwt = authService.login(loginDTO);
         return ResponseEntity.ok(jwt);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequestDTO forgotPasswordRequestDTO){
+        authService.forgotPassword(forgotPasswordRequestDTO.getEmail());
+
+        return ResponseEntity.ok("Reset password email sent");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO){
+        authService.resetPassword(resetPasswordDTO.getToken(),resetPasswordDTO.getNewPassword());
+
+        return ResponseEntity.ok("Password reset successful");
     }
 }

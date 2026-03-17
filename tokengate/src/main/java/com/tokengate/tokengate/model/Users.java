@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,5 +23,6 @@ public class Users {
     private String password;
     private String verificationToken;
     private boolean isVerified = false;
-    private String resetToken;  // For future password reset
+    private String resetToken;
+    private LocalDateTime resetTokenExpiry;
 }

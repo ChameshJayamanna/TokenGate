@@ -1,20 +1,33 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import API from "../api";
 
-function Login() {
+function ResetPassword() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
     try {
-      const res = await API.post("/login", { email, password });
-      localStorage.setItem("token", res.data);
-      navigate("/home");
+      await API.post("/reset-password", {
+        token,
+        newPassword: password,
+      });
+
+      alert("Password reset successful!");
+      navigate("/login");
     } catch (err) {
-      alert(err.response?.data || "Invalid credentials or email not verified!");
+      alert(err.response?.data || "Error resetting password!");
     }
   };
 
@@ -38,39 +51,34 @@ function Login() {
           textAlign: "center",
         }}
       >
-        <h2>Login</h2>
+        <h2>Reset Password</h2>
 
         <form onSubmit={handleSubmit}>
           <input
-            type="email"
-            placeholder="Email"
-            value={email}
+            type="password"
+            placeholder="New Password"
             required
-            onChange={(e) => setEmail(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             style={{ width: "100%", padding: 8, marginBottom: 10 }}
           />
 
           <input
             type="password"
-            placeholder="Password"
-            value={password}
+            placeholder="Confirm Password"
             required
-            onChange={(e) => setPassword(e.target.value)}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             style={{ width: "100%", padding: 8, marginBottom: 10 }}
           />
 
           <button type="submit" style={{ padding: "8px 16px" }}>
-            Login
+            Reset Password
           </button>
         </form>
-
-        {/* Forgot Password Link */}
-        <p style={{ marginTop: "15px" }}>
-          <Link to="/forgot-password">Forgot Password?</Link>
-        </p>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default ResetPassword;
